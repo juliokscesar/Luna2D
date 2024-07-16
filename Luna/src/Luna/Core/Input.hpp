@@ -4,7 +4,7 @@
 
 #include <GLFW/glfw3.h>
 
-namespace Remus::Input
+namespace Luna::Input
 {
     int GetKeyGLFWAction(int key) noexcept;
 

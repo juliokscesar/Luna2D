@@ -1,8 +1,8 @@
 #include "Window.hpp"
 
-#include "Remus.hpp"
+#include "Luna.hpp"
 
-namespace Remus
+namespace Luna 
 {
     Window::Window()
         : m_winSpecs("Blank", 800, 600, true)
@@ -33,9 +33,9 @@ namespace Remus
     {
         m_glfwWindow = glfwCreateWindow(m_winSpecs.Width, m_winSpecs.Height, m_winSpecs.Title.c_str(), nullptr, nullptr);
         if (!m_glfwWindow)
-            return REMUS_INIT_FAILURE;
+            return LUNA_INIT_FAILURE;
 
-        return REMUS_INIT_SUCCESS;
+        return LUNA_INIT_SUCCESS;
     }
 
     void Window::SetClose(bool close)

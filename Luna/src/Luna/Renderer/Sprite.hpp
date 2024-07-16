@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace Remus
+namespace Luna 
 {
     class Sprite
     {

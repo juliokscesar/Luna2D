@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iostream>
 
-namespace Remus::ResourceManager 
+namespace Luna::ResourceManager 
 {
     std::string LoadFile(const std::string &path)
     {

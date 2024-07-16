@@ -4,7 +4,7 @@
 
 #include "Window.hpp"
 
-namespace Remus
+namespace Luna 
 {
     struct ApplicationSpecification
     {

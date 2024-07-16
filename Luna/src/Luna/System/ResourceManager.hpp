@@ -4,7 +4,7 @@
 
 #include "../Renderer/Shader.hpp"
 
-namespace Remus::ResourceManager
+namespace Luna::ResourceManager
 {
     std::string LoadFile(const std::string& path);
     

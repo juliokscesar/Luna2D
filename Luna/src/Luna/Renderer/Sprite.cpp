@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-namespace Remus 
+namespace Luna 
 {
     Sprite::Sprite()
     {

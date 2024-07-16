@@ -1,6 +1,6 @@
 #include "Renderer.hpp"
 
-namespace Remus::Renderer
+namespace Luna::Renderer
 {
     static ViewportSpecifications g_viewportSpecs;
 

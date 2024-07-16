@@ -1,14 +1,13 @@
-# TODO: this should build 'Remus' as a static library. The code here only contains the 'core' functionality of the engine
 cmake_minimum_required(VERSION 3.28)
-project(RemusCore)
+project(LunaCore)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # export compiler commands for clangd (nvim coc)
 
 set(GLAD_SRC ext/glad/src/glad.c)
 
-set(SRC_DIR src/Remus)
+set(SRC_DIR src/Luna)
 
-set(REMUS_CORE_SRC
+set(LUNA_CORE_SRC
     ${SRC_DIR}/Core/Application.cpp
     ${SRC_DIR}/Core/Window.cpp
     ${SRC_DIR}/Core/Input.cpp
@@ -18,19 +17,18 @@ set(REMUS_CORE_SRC
     ${SRC_DIR}/System/ResourceManager.cpp
 )
 
-add_library(RemusCoreStatic STATIC
+add_library(LunaCoreStatic STATIC
     ${GLAD_SRC}
-    ${REMUS_CORE_SRC}
+    ${LUNA_CORE_SRC}
 )
-
-target_include_directories(RemusCoreStatic PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}/ext/
+target_include_directories(LunaCoreStatic PUBLIC 
+    ${CMAKE_CURRENT_LIST_DIR}/ext/ 
     ${CMAKE_CURRENT_LIST_DIR}/ext/glad/include/
-)
+) 
 
-target_compile_definitions(RemusCoreStatic PRIVATE "RM_DEBUG=$<CONFIG:Debug>")
+target_compile_definitions(LunaCoreStatic PRIVATE "LN_DEBUG=$<CONFIG:Debug>")
 
-install(TARGETS RemusCoreStatic
+install(TARGETS LunaCoreStatic
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
 )

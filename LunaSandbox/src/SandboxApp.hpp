@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Remus/Core/Application.hpp"
-#include "Remus/Core/Remus.hpp"
+#include "Luna/Core/Application.hpp"
+#include "Luna/Core/Luna.hpp"
 
-namespace Remus
+namespace Luna 
 {
     class SandboxApp : public Application
     {

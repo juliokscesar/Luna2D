@@ -75,7 +75,7 @@ static void mouseScrollCallback(GLFWwindow* window, double xoffset, double yoffs
     mouseTracker.scrollOffset = static_cast<float>(yoffset);
 }
 
-namespace Remus::Input
+namespace Luna::Input
 {
     int GetKeyGLFWAction(int key) noexcept
     {

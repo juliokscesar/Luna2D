@@ -4,7 +4,7 @@
 #include <iostream>
 #include <memory>
 
-namespace Remus 
+namespace Luna 
 {
     Shader::Shader()
 	: m_progID(0)

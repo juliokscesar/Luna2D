@@ -3,12 +3,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "Remus/Core/Remus.hpp"
-#include "Remus/Core/Input.hpp"
-#include "Remus/Renderer/Renderer.hpp"
-#include "Remus/Renderer/Shader.hpp"
-#include "Remus/System/ResourceManager.hpp"
-#include "Remus/Renderer/Sprite.hpp"
+#include "Luna/Core/Luna.hpp"
+#include "Luna/Core/Input.hpp"
+#include "Luna/Renderer/Renderer.hpp"
+#include "Luna/Renderer/Shader.hpp"
+#include "Luna/System/ResourceManager.hpp"
+#include "Luna/Renderer/Sprite.hpp"
 
 static bool g_bResized = false;
 void framebufferSizeCallback(GLFWwindow* window, int width, int height)
@@ -16,12 +16,12 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height)
     g_bResized = true;
 }
 
-namespace Remus
+namespace Luna 
 {
     int SandboxApp::Init()
     {
         if (!glfwInit())
-            return REMUS_INIT_FAILURE;
+            return LUNA_INIT_FAILURE;
 
         
         // Using OpenGL 3.3. and core profile
@@ -32,10 +32,10 @@ namespace Remus
         // focus when window opens
         glfwWindowHint(GLFW_FOCUS_ON_SHOW, GLFW_TRUE);
 
-        if (m_window->CreateWindow() != REMUS_INIT_SUCCESS)
+        if (m_window->CreateWindow() != LUNA_INIT_SUCCESS)
         {
             glfwTerminate();
-            return REMUS_INIT_FAILURE;
+            return LUNA_INIT_FAILURE;
         }
         
         glfwMakeContextCurrent(m_window->GetGLFWWindow());
@@ -47,7 +47,7 @@ namespace Remus
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
             glfwTerminate();
-            return REMUS_INIT_FAILURE;
+            return LUNA_INIT_FAILURE;
         }
 
         Renderer::Init(ViewportSpecifications(m_window->GetSpecs().Width, m_window->GetSpecs().Height));
@@ -56,7 +56,7 @@ namespace Remus
         // resize callback
         glfwSetFramebufferSizeCallback(m_window->GetGLFWWindow(), framebufferSizeCallback);
 
-        return REMUS_INIT_SUCCESS;
+        return LUNA_INIT_SUCCESS;
     }
 
     void SandboxApp::Run()
@@ -64,7 +64,7 @@ namespace Remus
 	// TODO: DELETE THIS SPRITE DRAW (JUST TESTING)
 	ShaderLibrary shaderLib;
 	{
-	    Shader quadShader = ResourceManager::LoadShader("assets/shaders/quad.vert", "assets/shaders/quad.frag");
+	    Shader quadShader = ResourceManager::LoadShader("LunaSandbox/assets/shaders/quad.vert", "LunaSandbox/assets/shaders/quad.frag");
 	   shaderLib.Add("quadShader", quadShader);
 	}
 	Sprite quad{};

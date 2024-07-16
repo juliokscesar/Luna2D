@@ -1,6 +1,6 @@
 #include "Application.hpp"
 
-namespace Remus 
+namespace Luna 
 {
     Application::Application(const ApplicationSpecification& appSpec)
     {

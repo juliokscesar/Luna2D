@@ -7,7 +7,7 @@
 
 #include <glad/glad.h>
 
-namespace Remus 
+namespace Luna 
 {
     class Shader
     {

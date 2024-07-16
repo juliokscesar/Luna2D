@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.28)
-project(RemusEngine)
+project(LunaEngine)
 
-# Remus Core:
-add_subdirectory("Remus")
+# Luna Core
+add_subdirectory("Luna")
 
-# Remus Sandbox
-add_subdirectory("RemusSandbox")
+# Luna Sandbox
+add_subdirectory("LunaSandbox")
 
 
 
