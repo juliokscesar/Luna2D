@@ -25,6 +25,12 @@ namespace Remus
         void Init(const ViewportSpecifications& viewportSpecs);
         void UpdateViewport(uint32_t newWidth, uint32_t newHeight);
 
+	// TODO: implement DrawTriangle. Find out a way to store simple mesh vertices (like triangle, quad, etc)
+	/* void DrawTriangle(); */
+
+	// TODO: implement DrawQuad. Create function to DrawSprite and also DrawQuad with texture
+	//void DrawQuad();
+
         void ClearColor(float r, float g, float b, float a);
         void NewFrame(GLFWwindow* window);
     };

@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.28)
 project(RemusSandbox)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # export compiler commands for clangd (nvim coc)
+
 set(REMUS_CORE_INCLUDE 
     ${CMAKE_SOURCE_DIR}/Remus/src/
     ${CMAKE_SOURCE_DIR}/Remus/ext/

@@ -1,3 +1,5 @@
 build/
 .vscode/
 *old*
+compile_commands*
+.cache/

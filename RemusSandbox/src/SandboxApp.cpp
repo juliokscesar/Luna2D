@@ -4,8 +4,11 @@
 #include <GLFW/glfw3.h>
 
 #include "Remus/Core/Remus.hpp"
-#include "Remus/Renderer/Renderer.hpp"
 #include "Remus/Core/Input.hpp"
+#include "Remus/Renderer/Renderer.hpp"
+#include "Remus/Renderer/Shader.hpp"
+#include "Remus/System/ResourceManager.hpp"
+#include "Remus/Renderer/Sprite.hpp"
 
 static bool g_bResized = false;
 void framebufferSizeCallback(GLFWwindow* window, int width, int height)
@@ -58,6 +61,14 @@ namespace Remus
 
     void SandboxApp::Run()
     {
+	// TODO: DELETE THIS SPRITE DRAW (JUST TESTING)
+	ShaderLibrary shaderLib;
+	{
+	    Shader quadShader = ResourceManager::LoadShader("assets/shaders/quad.vert", "assets/shaders/quad.frag");
+	   shaderLib.Add("quadShader", quadShader);
+	}
+	Sprite quad{};
+
         while (!m_window->CloseRequested())
         {
             Renderer::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -78,6 +89,9 @@ namespace Remus
 
                 g_bResized = false;
             }
+
+	    shaderLib.Get("quadShader")->Use();
+	    quad.Draw();
 
             Renderer::NewFrame(m_window->GetGLFWWindow());
         }
