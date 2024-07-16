@@ -11,6 +11,9 @@ namespace Remus
 
     struct WindowSpecification
     {   
+	WindowSpecification()
+	    : Title("Blank"), Width(800), Height(600), AspectRatio(800.0f / 600.0f), VSync(true) {}
+
         WindowSpecification(const std::string& title, uint32_t width, uint32_t height, bool vsync)
             : Title(title), Width(width), Height(height), AspectRatio(static_cast<float>(width) / static_cast<float>(height)), VSync(vsync) {}
 

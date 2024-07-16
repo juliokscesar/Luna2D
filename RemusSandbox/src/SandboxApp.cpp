@@ -1,11 +1,11 @@
-#include "Application.hpp"
+#include "SandboxApp.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "Core/Remus.hpp"
-#include "Core/Renderer.hpp"
-#include "Core/Input.hpp"
+#include "Remus/Core/Remus.hpp"
+#include "Remus/Renderer/Renderer.hpp"
+#include "Remus/Core/Input.hpp"
 
 static bool g_bResized = false;
 void framebufferSizeCallback(GLFWwindow* window, int width, int height)
@@ -15,18 +15,7 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 
 namespace Remus
 {
-    Application::Application()
-    {
-        WindowSpecification specs("Remus2D", 1280, 720, true);
-        m_window = std::make_unique<Window>(specs);
-    }
-
-    Application::~Application()
-    {
-        glfwTerminate();
-    }
-
-    int Application::Init()
+    int SandboxApp::Init()
     {
         if (!glfwInit())
             return REMUS_INIT_FAILURE;
@@ -67,11 +56,11 @@ namespace Remus
         return REMUS_INIT_SUCCESS;
     }
 
-    void Application::Run()
+    void SandboxApp::Run()
     {
         while (!m_window->CloseRequested())
         {
-            Renderer::ClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+            Renderer::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
             if (Input::GetKeyState(GLFW_KEY_ESCAPE))
             {
