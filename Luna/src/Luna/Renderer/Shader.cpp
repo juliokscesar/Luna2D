@@ -16,11 +16,6 @@ namespace Luna
 	InitShader(vertCode, fragCode);
     }
 
-    Shader::~Shader()
-    {
-	glDeleteProgram(m_progID);
-    }
-
     void Shader::InitShader(const char* vertCode, const char* fragCode)
     {
 	uint32_t vertexId = CreateShader(GL_VERTEX_SHADER, vertCode);
@@ -38,6 +33,10 @@ namespace Luna
 	glUseProgram(m_progID);
     }
 
+    const uint32_t Shader::GetProgramID() const noexcept
+    {
+	return m_progID;
+    }
 
     int Shader::GetUniformLocation(const std::string& name) const noexcept
     {
@@ -124,6 +123,14 @@ namespace Luna
 	return true;
     }
 
+
+    ShaderLibrary::~ShaderLibrary()
+    {
+	for (const auto& [key, value] : m_shaders)
+	{
+	    glDeleteProgram(value->GetProgramID());
+	}
+    }
 
     void ShaderLibrary::Add(const std::string& name, const Shader& shader)
     {

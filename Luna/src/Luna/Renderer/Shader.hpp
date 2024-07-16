@@ -25,8 +25,6 @@ namespace Luna
 	    this->m_progID = std::move(other.m_progID);
 	}
 
-	~Shader();
-
 	Shader& operator=(const Shader& other)
 	{
 	    if (this != &other)
@@ -47,6 +45,8 @@ namespace Luna
 
 	void InitShader(const char* vertCode, const char* fragCode);
 	void Use();
+
+	const uint32_t GetProgramID() const noexcept;
 
 	int GetUniformLocation(const std::string& name) const noexcept;
 
@@ -69,6 +69,8 @@ namespace Luna
     class ShaderLibrary
     {
     public:
+	~ShaderLibrary();
+
 	void Add(const std::string& name, const Shader& shader);
 	std::shared_ptr<Shader> Get(const std::string& name) const noexcept;
     private:
