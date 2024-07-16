@@ -14,6 +14,7 @@ set(LUNA_CORE_SRC
     ${SRC_DIR}/Renderer/Renderer.cpp
     ${SRC_DIR}/Renderer/Shader.cpp
     ${SRC_DIR}/Renderer/Sprite.cpp
+    ${SRC_DIR}/Renderer/Texture2D.cpp
     ${SRC_DIR}/System/ResourceManager.cpp
 )
 
@@ -21,12 +22,19 @@ add_library(LunaCoreStatic STATIC
     ${GLAD_SRC}
     ${LUNA_CORE_SRC}
 )
+
 target_include_directories(LunaCoreStatic PUBLIC 
     ${CMAKE_CURRENT_LIST_DIR}/ext/ 
     ${CMAKE_CURRENT_LIST_DIR}/ext/glad/include/
 ) 
 
 target_compile_definitions(LunaCoreStatic PRIVATE "LN_DEBUG=$<CONFIG:Debug>")
+
+if(MSVC)
+    target_compile_options(LunaCoreStatic PRIVATE /W4 /WX)
+else()
+    target_compile_options(LunaCoreStatic PRIVATE -Wall -Wextra -Wpedantic)
+endif()
 
 install(TARGETS LunaCoreStatic
     LIBRARY DESTINATION lib

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Texture2D.hpp"
+
 #include <cstdint>
 
 namespace Luna 
@@ -8,9 +10,12 @@ namespace Luna
     {
     public:
 	Sprite();
+	Sprite(const Texture2D& spriteTexture);
 	~Sprite();
 
 	void InitRenderData();
+
+	void SetTexture2D(const Texture2D& texture);
 
 	void Draw();
 
@@ -18,8 +23,8 @@ namespace Luna
 	uint32_t m_VAO = 0;
 	uint32_t m_VBO = 0;
 
-	// TODO: implement Texture2D
-	// Texture2D tex;
+	Texture2D m_texture;
+	bool m_useTexture = false;
     };
 }
 

@@ -33,7 +33,7 @@ namespace Luna
 	glUseProgram(m_progID);
     }
 
-    const uint32_t Shader::GetProgramID() const noexcept
+    uint32_t Shader::GetProgramID() const noexcept
     {
 	return m_progID;
     }

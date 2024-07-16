@@ -46,7 +46,7 @@ namespace Luna
 	void InitShader(const char* vertCode, const char* fragCode);
 	void Use();
 
-	const uint32_t GetProgramID() const noexcept;
+	uint32_t GetProgramID() const noexcept;
 
 	int GetUniformLocation(const std::string& name) const noexcept;
 

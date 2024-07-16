@@ -9,6 +9,12 @@ namespace Luna
 	InitRenderData();
     }
 
+    Sprite::Sprite(const Texture2D& spriteTexture)
+	: m_texture(spriteTexture), m_useTexture(true)
+    {
+	InitRenderData();
+    }
+
     Sprite::~Sprite()
     {
 	glDeleteBuffers(1, &m_VBO);
@@ -48,6 +54,12 @@ namespace Luna
     void Sprite::Draw()
     {
 	glBindVertexArray(m_VAO);
+
+	if (m_useTexture)
+	{
+	    m_texture.Use();
+	}
+
 	glDrawArrays(GL_TRIANGLES, 0, 6);
     }
 }

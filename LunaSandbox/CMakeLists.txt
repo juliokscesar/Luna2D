@@ -31,5 +31,11 @@ target_link_libraries(LunaSandbox PUBLIC
     LunaCoreStatic
 )
 
+if(MSVC)
+    target_compile_options(LunaSandbox PRIVATE /W4 /WX)
+else()
+    target_compile_options(LunaSandbox PRIVATE -Wall -Wextra -Wpedantic)
+endif()
+  
 install(TARGETS LunaSandbox RUNTIME DESTINATION bin)
 

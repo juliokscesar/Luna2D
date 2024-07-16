@@ -7,6 +7,7 @@
 #include "Luna/Core/Input.hpp"
 #include "Luna/Renderer/Renderer.hpp"
 #include "Luna/Renderer/Shader.hpp"
+#include "Luna/Renderer/Texture2D.hpp"
 #include "Luna/System/ResourceManager.hpp"
 #include "Luna/Renderer/Sprite.hpp"
 
@@ -65,9 +66,23 @@ namespace Luna
 	ShaderLibrary shaderLib;
 	{
 	    Shader quadShader = ResourceManager::LoadShader("LunaSandbox/assets/shaders/quad.vert", "LunaSandbox/assets/shaders/quad.frag");
+	    Shader quadTexturedShader = ResourceManager::LoadShader("LunaSandbox/assets/shaders/quadTextured.vert", "LunaSandbox/assets/shaders/quadTextured.frag");
+
 	   shaderLib.Add("quadShader", quadShader);
+	   shaderLib.Add("quadTexturedShader", quadTexturedShader);
 	}
 	Sprite quad{};
+
+	// FIX: For some reason, trying to Load 'concrete.png' raises a Segmentation Fault
+	
+	//Texture2D concreteTex = ResourceManager::LoadTexture2D("LunaSandbox/assets/textures/concrete.png", ResourceManager::ImageFormat::RGBA);
+	//Sprite concreteSpirte (concreteTex);
+	
+	Texture2D romaTex = ResourceManager::LoadTexture2D("LunaSandbox/assets/textures/roma.png", ResourceManager::ImageFormat::RGBA, 1);
+	Sprite romaSprite(romaTex);
+
+	Texture2D containerTex = ResourceManager::LoadTexture2D("LunaSandbox/assets/textures/container.jpg", ResourceManager::ImageFormat::RGB);
+	Sprite containerSprite(containerTex);
 
         while (!m_window->CloseRequested())
         {
@@ -90,8 +105,17 @@ namespace Luna
                 g_bResized = false;
             }
 
-	    shaderLib.Get("quadShader")->Use();
-	    quad.Draw();
+	    //shaderLib.Get("quadShader")->Use();
+	    //quad.Draw();
+
+	    const auto& quadTexturedShader = shaderLib.Get("quadTexturedShader");
+	    quadTexturedShader->Use();
+
+	    quadTexturedShader->SetUniformInt("u_texUnit", containerTex.GetTextureUnit());
+	    containerSprite.Draw();
+
+	    quadTexturedShader->SetUniformInt("u_texUnit", romaTex.GetTextureUnit());
+	    romaSprite.Draw();
 
             Renderer::NewFrame(m_window->GetGLFWWindow());
         }
