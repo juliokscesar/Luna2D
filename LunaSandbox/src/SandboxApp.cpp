@@ -12,7 +12,7 @@
 #include "Luna/Renderer/Sprite.hpp"
 
 static bool g_bResized = false;
-void framebufferSizeCallback(GLFWwindow* window, int width, int height)
+void framebufferSizeCallback(GLFWwindow*, int, int)
 {
     g_bResized = true;
 }
@@ -78,10 +78,10 @@ namespace Luna
 	//Texture2D concreteTex = ResourceManager::LoadTexture2D("LunaSandbox/assets/textures/concrete.png", ResourceManager::ImageFormat::RGBA);
 	//Sprite concreteSpirte (concreteTex);
 	
-	Texture2D romaTex = ResourceManager::LoadTexture2D("LunaSandbox/assets/textures/roma.png", ResourceManager::ImageFormat::RGBA, 1);
+	Texture2D romaTex = ResourceManager::LoadTexture2D("LunaSandbox/assets/textures/roma.png", 1, true);
 	Sprite romaSprite(romaTex);
 
-	Texture2D containerTex = ResourceManager::LoadTexture2D("LunaSandbox/assets/textures/container.jpg", ResourceManager::ImageFormat::RGB);
+	Texture2D containerTex = ResourceManager::LoadTexture2D("LunaSandbox/assets/textures/container.jpg");
 	Sprite containerSprite(containerTex);
 
         while (!m_window->CloseRequested())

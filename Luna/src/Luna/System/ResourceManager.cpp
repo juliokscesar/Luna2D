@@ -49,7 +49,7 @@ namespace Luna::ResourceManager
 	Data = nullptr;
     }
 
-    ImageData* LoadImage(const std::string& path, ImageFormat format)
+    ImageData* LoadImage(const std::string& path, bool flip)
     {
 	if (!CheckPath(path))
 	{
@@ -57,34 +57,43 @@ namespace Luna::ResourceManager
 	    return nullptr;
 	}
 
+	stbi_set_flip_vertically_on_load(flip);
 	int width, height, nrChannels;
 	uint8_t* data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
-
+	
 	if (!data)
 	{
 	    std::cerr << "stbi_load returned a nullptr when loading " << path << '\n';
 	    return nullptr;
 	}
 
+	// TODO: i don't think this is the best way to find out imgSourceFormat, but it's better than having that enum ImageFormat
+	GLenum srcFormat{};	
+	switch (nrChannels)
+	{
+	case 3:	    srcFormat =  GL_RGB;	break;
+	case 4:	    srcFormat = GL_RGBA;	break;
+	}
+
 	return new ImageData(
 		static_cast<uint32_t>(width),
 		static_cast<uint32_t>(height),
 		static_cast<uint32_t>(nrChannels),
-		format,
+		srcFormat,
 		data
 	);
     }
 
-    Texture2D LoadTexture2D(const std::string &path, ImageFormat srcFormat, uint32_t textureUnit)
+    Texture2D LoadTexture2D(const std::string &path, uint32_t textureUnit, bool flipImgOnLoad)
     {
-	ImageData* img = LoadImage(path, srcFormat);
+	ImageData* img = LoadImage(path, flipImgOnLoad);
 	if (!img || !img->Data)
 	{
 	    std::cerr << "img.Data is nullptr when loading texture " << path << '\n';
 	    return Texture2D();
 	}
 
-	TextureSpecificiation textureSpec(GL_RGB, static_cast<uint32_t>(srcFormat), img->Width, img->Height);
+	TextureSpecificiation textureSpec(GL_RGB, img->SourceFormat, img->Width, img->Height);
 
 	Texture2D texture(img->Data, textureSpec, textureUnit);
 

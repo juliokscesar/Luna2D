@@ -11,11 +11,11 @@ namespace Luna
     {
 	TextureSpecificiation() = default;
 	
-	TextureSpecificiation(uint32_t glStoreFormat, uint32_t imgSourceFormat, uint32_t width, uint32_t height)
+	TextureSpecificiation(uint32_t glStoreFormat, GLenum imgSourceFormat, uint32_t width, uint32_t height)
 	    : GLStoreFormat(glStoreFormat), ImgSourceFormat(imgSourceFormat), Width(width), Height(height) {}
 
 	uint32_t GLStoreFormat = 0;
-	uint32_t ImgSourceFormat = 0;
+	GLenum ImgSourceFormat = GL_RGB;
 	uint32_t Width = 0;
 	uint32_t Height = 0;
     };
