@@ -11,7 +11,8 @@ namespace Luna
     {
     }
 
-    Shader::Shader(const char* vertCode, const char* fragCode)
+    Shader::Shader(const std::string& name, const char* vertCode, const char* fragCode)
+	: m_name(name)
     {
 	InitShader(vertCode, fragCode);
     }
@@ -36,6 +37,16 @@ namespace Luna
     uint32_t Shader::GetProgramID() const noexcept
     {
 	return m_progID;
+    }
+
+    std::string Shader::GetName() const noexcept
+    {
+	return m_name;
+    }
+
+    void Shader::SetName(const std::string& name)
+    {
+	m_name = name;
     }
 
     int Shader::GetUniformLocation(const std::string& name) const noexcept
@@ -126,15 +137,15 @@ namespace Luna
 
     ShaderLibrary::~ShaderLibrary()
     {
-	for (const auto& [key, value] : m_shaders)
+	for (const auto& [name, shader] : m_shaders)
 	{
-	    glDeleteProgram(value->GetProgramID());
+	    glDeleteProgram(shader->GetProgramID());
 	}
     }
 
-    void ShaderLibrary::Add(const std::string& name, const Shader& shader)
+    void ShaderLibrary::Add(const Shader& shader)
     {
-	m_shaders[name] = std::make_shared<Shader>(shader);
+	m_shaders[shader.GetName()] = std::make_shared<Shader>(shader);
     }
 
     std::shared_ptr<Shader> ShaderLibrary::Get(const std::string& name) const noexcept

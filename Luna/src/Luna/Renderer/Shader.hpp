@@ -13,16 +13,18 @@ namespace Luna
     {
     public:
 	Shader();
-	Shader(const char* vertCode, const char* fragCode);
+	Shader(const std::string& name, const char* vertCode, const char* fragCode);
 
 	Shader(const Shader& other)
 	{
 	    this->m_progID = other.m_progID;
+	    this->m_name   = other.m_name;
 	}
 	
 	Shader(Shader&& other)
 	{
 	    this->m_progID = std::move(other.m_progID);
+	    this->m_name   = std::move(other.m_name);
 	}
 
 	Shader& operator=(const Shader& other)
@@ -30,6 +32,7 @@ namespace Luna
 	    if (this != &other)
 	    {
 		this->m_progID = other.m_progID;
+		this->m_name   = other.m_name;
 	    }
 	    return *this;
 	}
@@ -39,6 +42,7 @@ namespace Luna
 	    if (this != &other)
 	    {
 		this->m_progID = std::move(other.m_progID);
+		this->m_name   = std::move(other.m_name);
 	    }
 	    return *this;
 	}
@@ -47,6 +51,9 @@ namespace Luna
 	void Use();
 
 	uint32_t GetProgramID() const noexcept;
+
+	std::string GetName() const noexcept;
+	void SetName(const std::string& name);
 
 	int GetUniformLocation(const std::string& name) const noexcept;
 
@@ -63,6 +70,8 @@ namespace Luna
 
     private:
 	uint32_t m_progID = 0;
+
+	std::string m_name;
     };
 
 
@@ -71,7 +80,7 @@ namespace Luna
     public:
 	~ShaderLibrary();
 
-	void Add(const std::string& name, const Shader& shader);
+	void Add(const Shader& shader);
 	std::shared_ptr<Shader> Get(const std::string& name) const noexcept;
     private:
 	std::unordered_map<std::string, std::shared_ptr<Shader>> m_shaders;

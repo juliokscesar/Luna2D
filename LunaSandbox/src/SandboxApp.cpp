@@ -68,8 +68,8 @@ namespace Luna
 	    Shader quadShader = ResourceManager::LoadShader("LunaSandbox/assets/shaders/quad.vert", "LunaSandbox/assets/shaders/quad.frag");
 	    Shader quadTexturedShader = ResourceManager::LoadShader("LunaSandbox/assets/shaders/quadTextured.vert", "LunaSandbox/assets/shaders/quadTextured.frag");
 
-	   shaderLib.Add("quadShader", quadShader);
-	   shaderLib.Add("quadTexturedShader", quadTexturedShader);
+	   shaderLib.Add(quadShader);
+	   shaderLib.Add(quadTexturedShader);
 	}
 	Sprite quad{};
 
@@ -108,7 +108,7 @@ namespace Luna
 	    //shaderLib.Get("quadShader")->Use();
 	    //quad.Draw();
 
-	    const auto& quadTexturedShader = shaderLib.Get("quadTexturedShader");
+	    const auto& quadTexturedShader = shaderLib.Get("quadTextured");
 	    quadTexturedShader->Use();
 
 	    quadTexturedShader->SetUniformInt("u_texUnit", containerTex.GetTextureUnit());

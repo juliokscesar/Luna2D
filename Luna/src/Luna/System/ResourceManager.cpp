@@ -1,10 +1,12 @@
 #include "ResourceManager.hpp"
 
+#include <cstddef>
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <string>
 
 #ifndef STB_IMAGE_IMPLEMENTATION
     #define STB_IMAGE_IMPLEMENTATION
@@ -39,7 +41,22 @@ namespace Luna::ResourceManager
 	std::string vertexCode = LoadFile(vertexPath);
 	std::string fragCode = LoadFile(fragPath);
 
-	return Shader(vertexCode.c_str(), fragCode.c_str());
+	if (vertexCode.empty() || fragCode.empty())
+	{
+	    std::cerr << "Unable to load shader with vertexPath=" << vertexPath << " and fragPath=" << fragPath << '\n';
+	    return Shader();
+	}
+
+	// Get Shader name based on vertexPath name
+	const std::string vertexExt(".vert");
+	const size_t vertexExtSize = vertexExt.size();
+
+	constexpr char PATH_DIVIDER = '/';
+	const size_t lastDividerPos = vertexPath.rfind(&PATH_DIVIDER);
+
+	const std::string shaderName = std::string(vertexPath.begin() + lastDividerPos + 1, vertexPath.end() - vertexExtSize);
+
+	return Shader(shaderName, vertexCode.c_str(), fragCode.c_str());
     }
     
 
