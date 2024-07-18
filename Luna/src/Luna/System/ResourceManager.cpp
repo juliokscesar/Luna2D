@@ -1,6 +1,5 @@
 #include "ResourceManager.hpp"
 
-#include <cstddef>
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
@@ -48,13 +47,8 @@ namespace Luna::ResourceManager
 	}
 
 	// Get Shader name based on vertexPath name
-	const std::string vertexExt(".vert");
-	const size_t vertexExtSize = vertexExt.size();
-
-	constexpr char PATH_DIVIDER = '/';
-	const size_t lastDividerPos = vertexPath.rfind(&PATH_DIVIDER);
-
-	const std::string shaderName = std::string(vertexPath.begin() + lastDividerPos + 1, vertexPath.end() - vertexExtSize);
+	std::filesystem::path filePath{vertexPath};
+	const std::string shaderName = std::string(filePath.replace_extension("").filename());
 
 	return Shader(shaderName, vertexCode.c_str(), fragCode.c_str());
     }
