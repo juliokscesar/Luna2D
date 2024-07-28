@@ -1,5 +1,6 @@
 #include "Sprite.hpp"
 
+#include <iostream>
 #include <glad/glad.h>
 
 namespace Luna 
@@ -15,10 +16,23 @@ namespace Luna
 	InitRenderData();
     }
 
+    Sprite::Sprite(const Sprite& other)
+	: m_VAO(other.m_VAO), m_VBO(other.m_VBO), m_texture(other.m_texture), m_useTexture(other.m_useTexture)
+    {
+    }
+
+    Sprite::Sprite(Sprite&& other)
+	:   m_VAO(std::move(other.m_VAO)),
+	    m_VBO(std::move(other.m_VBO)),
+	    m_texture(std::move(other.m_texture)),
+	    m_useTexture(std::move(other.m_useTexture))
+    {
+    }
+
     Sprite::~Sprite()
     {
-	glDeleteBuffers(1, &m_VBO);
-	glDeleteVertexArrays(1, &m_VAO);
+	/* glDeleteBuffers(1, &m_VBO); */
+	/* glDeleteVertexArrays(1, &m_VAO); */
     }
 
     void Sprite::InitRenderData()
@@ -51,16 +65,4 @@ namespace Luna
 	glEnableVertexAttribArray(1);
     }
 
-    void Sprite::Draw()
-    {
-	glBindVertexArray(m_VAO);
-
-	if (m_useTexture)
-	{
-	    m_texture.Use();
-	}
-
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-    }
 }
-

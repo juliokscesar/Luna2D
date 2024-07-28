@@ -3,6 +3,8 @@ project(LunaSandbox)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # export compiler commands for clangd (nvim coc)
 
+set(CMAKE_CXX_STANDARD 20)
+
 set(LUNA_CORE_INCLUDE 
     ${CMAKE_SOURCE_DIR}/Luna/src/
     ${CMAKE_SOURCE_DIR}/Luna/ext/

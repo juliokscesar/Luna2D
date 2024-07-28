@@ -7,6 +7,8 @@
 
 namespace Luna::ResourceManager
 {
+    void InitWorkingPath();
+
     bool CheckPath(const std::string& path);
 
     std::string LoadFile(const std::string& path);
@@ -26,7 +28,7 @@ namespace Luna::ResourceManager
 	uint32_t Height = 0;
 	uint32_t NrChannels = 0;
 
-	GLenum SourceFormat = GL_RGB;
+	GLenum SourceFormat = GL_RGBA;
 
 	uint8_t* Data = nullptr;
     };

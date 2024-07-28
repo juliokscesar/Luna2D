@@ -1,7 +1,5 @@
 #include "Window.hpp"
 
-#include "Luna.hpp"
-
 namespace Luna 
 {
     Window::Window()
@@ -33,9 +31,9 @@ namespace Luna
     {
         m_glfwWindow = glfwCreateWindow(m_winSpecs.Width, m_winSpecs.Height, m_winSpecs.Title.c_str(), nullptr, nullptr);
         if (!m_glfwWindow)
-            return LUNA_INIT_FAILURE;
+            return 0;
 
-        return LUNA_INIT_SUCCESS;
+        return 1;
     }
 
     void Window::SetClose(bool close)
@@ -48,7 +46,7 @@ namespace Luna
         return glfwWindowShouldClose(m_glfwWindow);
     }
 
-    void Window::ResizeWindow(uint32_t newWidth, uint32_t newHeight)
+    void Window::UpdateWindowSize(uint32_t newWidth, uint32_t newHeight)
     {
         m_winSpecs.Width  = newWidth;
         m_winSpecs.Height = newHeight;

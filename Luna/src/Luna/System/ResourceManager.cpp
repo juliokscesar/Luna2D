@@ -14,6 +14,16 @@
 
 namespace Luna::ResourceManager 
 {
+    void InitWorkingPath()
+    {
+	std::filesystem::path curr = std::filesystem::current_path();
+	while (curr.filename() != "Luna2D")
+	    curr = curr.parent_path();
+
+	std::filesystem::current_path(curr / "LunaSandbox" / "assets");
+	std::cout << "Working path = " << std::filesystem::current_path() << '\n';
+    }
+
     bool CheckPath(const std::string &path)
     {
 	return (std::filesystem::exists(path));
@@ -48,7 +58,7 @@ namespace Luna::ResourceManager
 
 	// Get Shader name based on vertexPath name
 	std::filesystem::path filePath{vertexPath};
-	const std::string shaderName = std::string(filePath.replace_extension("").filename());
+	const std::string shaderName = filePath.stem().string();
 
 	return Shader(shaderName, vertexCode.c_str(), fragCode.c_str());
     }
@@ -70,7 +80,7 @@ namespace Luna::ResourceManager
 
 	stbi_set_flip_vertically_on_load(flip);
 	int width, height, nrChannels;
-	uint8_t* data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
+	uint8_t* data = stbi_load(path.c_str(), &width, &height, &nrChannels, 4);
 	
 	if (!data)
 	{
@@ -78,14 +88,16 @@ namespace Luna::ResourceManager
 	    return nullptr;
 	}
 
-	// TODO: i don't think this is the best way to find out imgSourceFormat, but it's better than having that enum ImageFormat
-	GLenum srcFormat{};	
+	GLenum srcFormat;	
 	switch (nrChannels)
 	{
-	case 3:	    srcFormat =  GL_RGB;	break;
+	case 1:	    srcFormat = GL_RED;		break;
+	case 3:	    srcFormat = GL_RGB;		break;
 	case 4:	    srcFormat = GL_RGBA;	break;
 	}
+	std::cout << "nrChannels is " << nrChannels << " for path " << path << '\n';
 
+	srcFormat = GL_RGBA;
 	return new ImageData(
 		static_cast<uint32_t>(width),
 		static_cast<uint32_t>(height),
@@ -104,7 +116,7 @@ namespace Luna::ResourceManager
 	    return Texture2D();
 	}
 
-	TextureSpecificiation textureSpec(GL_RGB, img->SourceFormat, img->Width, img->Height);
+	TextureSpecificiation textureSpec(GL_RGBA, img->SourceFormat, img->Width, img->Height);
 
 	Texture2D texture(img->Data, textureSpec, textureUnit);
 

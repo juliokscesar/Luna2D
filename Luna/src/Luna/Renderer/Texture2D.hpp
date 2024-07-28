@@ -14,8 +14,8 @@ namespace Luna
 	TextureSpecificiation(uint32_t glStoreFormat, GLenum imgSourceFormat, uint32_t width, uint32_t height)
 	    : GLStoreFormat(glStoreFormat), ImgSourceFormat(imgSourceFormat), Width(width), Height(height) {}
 
-	uint32_t GLStoreFormat = 0;
-	GLenum ImgSourceFormat = GL_RGB;
+	GLenum GLStoreFormat = GL_RGBA;
+	GLenum ImgSourceFormat = GL_RGBA;
 	uint32_t Width = 0;
 	uint32_t Height = 0;
     };
@@ -59,11 +59,11 @@ namespace Luna
 	void Use() const noexcept;
 
 	uint32_t GetTextureID() const noexcept;
-	uint32_t GetTextureUnit() const noexcept;
+	int GetTextureUnit() const noexcept;
 
     private:
 	uint32_t m_textureID   = 0;
-	uint32_t m_textureUnit = 0;
+	int m_textureUnit = 0;
     };
 }
 

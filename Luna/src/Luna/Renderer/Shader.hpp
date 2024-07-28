@@ -1,11 +1,14 @@
 #pragma once
 
 #include <cstdint>
-#include <memory>
 #include <string>
 #include <unordered_map>
 
 #include <glad/glad.h>
+
+#include <glm/glm.hpp>
+
+#include "../Core/Luna.hpp"
 
 namespace Luna 
 {
@@ -61,6 +64,8 @@ namespace Luna
 	void SetUniformUInt(const std::string& name, uint32_t val);
 	void SetUniformFloat(const std::string& name, float val);
 	void SetUniformBool(const std::string& name, bool val);
+	void SetUniformMat4(const std::string& name, const glm::mat4& mat);
+	void SetUniformVec3(const std::string& name, const glm::vec3& v);
 
 	static uint32_t CreateShader(GLenum type, const char* code);
 	static uint32_t CreateProgram(uint32_t vertexId, uint32_t fragId);
@@ -81,9 +86,9 @@ namespace Luna
 	~ShaderLibrary();
 
 	void Add(const Shader& shader);
-	std::shared_ptr<Shader> Get(const std::string& name) const noexcept;
+	Ref<Shader> Get(const std::string& name) const noexcept;
     private:
-	std::unordered_map<std::string, std::shared_ptr<Shader>> m_shaders;
+	std::unordered_map<std::string, Ref<Shader>> m_shaders;
     };
 }
 

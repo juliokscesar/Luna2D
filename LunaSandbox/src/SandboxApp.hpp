@@ -1,19 +1,28 @@
 #pragma once
 
 #include "Luna/Core/Application.hpp"
-#include "Luna/Core/Luna.hpp"
+#include "Luna/Renderer/Scene.hpp"
 
-namespace Luna 
+namespace Sandbox
 {
-    class SandboxApp : public Application
+    class SandboxApp : public Luna::Application
     {
     public:
-        SandboxApp(const ApplicationSpecification& appSpec)
-    	: Application(appSpec) {}
-    
-	/* ~SandboxApp() override; */
+	SandboxApp(const Luna::ApplicationSpecification& appSpec);
 
-        int Init() override;
-	void Run() override;
+	// Called inside the Engine constructor
+	void OnCreate() override;
+	
+	// Called inside Engine::Start()
+	void OnStart() override;
+
+	// Called every frame
+	void OnUpdate(float deltaTime) override;
+
+	// Called in the Engine's destructor
+	void OnDestroy() override;
+    
+    private:
+	Luna::Scene* m_mainScene;
     };
 }

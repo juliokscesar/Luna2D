@@ -1,123 +1,79 @@
 #include "SandboxApp.hpp"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <glm/gtc/matrix_transform.hpp>
 
-#include "Luna/Core/Luna.hpp"
 #include "Luna/Core/Input.hpp"
+#include "Luna/Core/Luna.hpp"
+#include "Luna/Renderer/Camera.hpp"
+#include "Luna/Renderer/Entity.hpp"
+#include "Luna/Renderer/Projection.hpp"
 #include "Luna/Renderer/Renderer.hpp"
 #include "Luna/Renderer/Shader.hpp"
+#include "Luna/Renderer/Sprite.hpp"
 #include "Luna/Renderer/Texture2D.hpp"
 #include "Luna/System/ResourceManager.hpp"
-#include "Luna/Renderer/Sprite.hpp"
+#include <string>
 
-static bool g_bResized = false;
-void framebufferSizeCallback(GLFWwindow*, int, int)
+namespace Sandbox
 {
-    g_bResized = true;
-}
-
-namespace Luna 
-{
-    int SandboxApp::Init()
+    SandboxApp::SandboxApp(const Luna::ApplicationSpecification& appSpec)
+	: Luna::Application(appSpec)
     {
-        if (!glfwInit())
-            return LUNA_INIT_FAILURE;
+    }
+    
+    void SandboxApp::OnCreate()
+    {
+	Luna::Ref<Luna::Camera> camera = Luna::CreateRef<Luna::Camera>();
+	camera->Transform.SetPosition(0.0f, 0.0f, 3.0f);
 
-        
-        // Using OpenGL 3.3. and core profile
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	Luna::Frustum frustum{
+	    .Near = 0.1f, 
+	    .Far = 100.0f, 
+	    .O_Width = (float)m_appSpecs.WindowWidth,
+	    .O_Height = (float)m_appSpecs.WindowHeight,
+	    .P_FOV = 45.0f,
+	    .P_AspectRatio = (float)m_appSpecs.WindowWidth / (float)m_appSpecs.WindowHeight,
+	};
+	Luna::Projection ortho = Luna::Projection(Luna::ProjectionType::ORTHOGONAL, frustum);
 
-        // focus when window opens
-        glfwWindowHint(GLFW_FOCUS_ON_SHOW, GLFW_TRUE);
-
-        if (m_window->CreateWindow() != LUNA_INIT_SUCCESS)
-        {
-            glfwTerminate();
-            return LUNA_INIT_FAILURE;
-        }
-        
-        glfwMakeContextCurrent(m_window->GetGLFWWindow());
-
-        // set VSync
-        glfwSwapInterval(static_cast<int>(m_window->GetSpecs().VSync));
-
-        // initialize GLAD
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-        {
-            glfwTerminate();
-            return LUNA_INIT_FAILURE;
-        }
-
-        Renderer::Init(ViewportSpecifications(m_window->GetSpecs().Width, m_window->GetSpecs().Height));
-        Input::RegisterCallbacks(m_window->GetGLFWWindow());
-
-        // resize callback
-        glfwSetFramebufferSizeCallback(m_window->GetGLFWWindow(), framebufferSizeCallback);
-
-        return LUNA_INIT_SUCCESS;
+	m_mainScene = new Luna::Scene(camera, ortho);
     }
 
-    void SandboxApp::Run()
+    void SandboxApp::OnStart()
     {
-	// TODO: DELETE THIS SPRITE DRAW (JUST TESTING)
-	ShaderLibrary shaderLib;
 	{
-	    Shader quadShader = ResourceManager::LoadShader("LunaSandbox/assets/shaders/quad.vert", "LunaSandbox/assets/shaders/quad.frag");
-	    Shader quadTexturedShader = ResourceManager::LoadShader("LunaSandbox/assets/shaders/quadTextured.vert", "LunaSandbox/assets/shaders/quadTextured.frag");
+	Luna::Shader spriteBase = Luna::ResourceManager::LoadShader("shaders/sprite_base.vert", "shaders/sprite_base.frag");
+	Luna::Renderer::AddToShaderLib(spriteBase);
+	
+	Luna::Shader simpleQuad = Luna::ResourceManager::LoadShader("shaders/quad.vert", "shaders/quad.frag");
+	Luna::Renderer::AddToShaderLib(simpleQuad);
 
-	   shaderLib.Add(quadShader);
-	   shaderLib.Add(quadTexturedShader);
+	Luna::Renderer::AddToShaderLib(
+	    Luna::ResourceManager::LoadShader("shaders/quadTextured.vert", "shaders/quadTextured.frag")
+	);
 	}
-	Sprite quad{};
-
-	// FIX: For some reason, trying to Load 'concrete.png' raises a Segmentation Fault
 	
-	//Texture2D concreteTex = ResourceManager::LoadTexture2D("LunaSandbox/assets/textures/concrete.png", ResourceManager::ImageFormat::RGBA);
-	//Sprite concreteSpirte (concreteTex);
-	
-	Texture2D romaTex = ResourceManager::LoadTexture2D("LunaSandbox/assets/textures/roma.png", 1, true);
-	Sprite romaSprite(romaTex);
+	Luna::Texture2D containerTex = Luna::ResourceManager::LoadTexture2D("textures/container.jpg");
+	m_mainScene->CreateEntity("Container", Luna::CreateRef<Luna::Sprite>(containerTex));
+    }
 
-	Texture2D containerTex = ResourceManager::LoadTexture2D("LunaSandbox/assets/textures/container.jpg");
-	Sprite containerSprite(containerTex);
+    void SandboxApp::OnUpdate(float deltaTime)
+    {
+	if (Luna::Input::GetKeyState(GLFW_KEY_ESCAPE))
+	    this->SetExitRequest(true);
 
-        while (!m_window->CloseRequested())
-        {
-            Renderer::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	m_mainScene->UpdateScene(deltaTime, (float)m_appSpecs.WindowWidth, (float)m_appSpecs.WindowHeight);
 
-            if (Input::GetKeyState(GLFW_KEY_ESCAPE))
-            {
-                m_window->SetClose(true);
-                continue;
-            }
+	Luna::Ref<Luna::Entity> e = m_mainScene->GetEntityById(0);
+	e->Transform.Update();
+	e->Transform.SetPosition(00.0f, 00.0f, 0.0f);
+	e->Transform.Scale(200.0f);
 
-            if (g_bResized)
-            {
-                int width = 0, height = 0;
-                glfwGetWindowSize(m_window->GetGLFWWindow(), &width, &height);
-
-                m_window->ResizeWindow(width, height);
-                Renderer::UpdateViewport(width, height);
-
-                g_bResized = false;
-            }
-
-	    //shaderLib.Get("quadShader")->Use();
-	    //quad.Draw();
-
-	    const auto& quadTexturedShader = shaderLib.Get("quadTextured");
-	    quadTexturedShader->Use();
-
-	    quadTexturedShader->SetUniformInt("u_texUnit", containerTex.GetTextureUnit());
-	    containerSprite.Draw();
-
-	    quadTexturedShader->SetUniformInt("u_texUnit", romaTex.GetTextureUnit());
-	    romaSprite.Draw();
-
-            Renderer::NewFrame(m_window->GetGLFWWindow());
-        }
+	Luna::Renderer::RenderScene(m_mainScene, "sprite_base");
+    }
+    
+    void SandboxApp::OnDestroy()
+    {
+	delete m_mainScene;
     }
 }

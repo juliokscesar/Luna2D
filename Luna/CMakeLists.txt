@@ -3,6 +3,8 @@ project(LunaCore)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # export compiler commands for clangd (nvim coc)
 
+set(CMAKE_CXX_STANDARD 20)
+
 set(GLAD_SRC ext/glad/src/glad.c)
 
 set(SRC_DIR src/Luna)
@@ -15,7 +17,14 @@ set(LUNA_CORE_SRC
     ${SRC_DIR}/Renderer/Shader.cpp
     ${SRC_DIR}/Renderer/Sprite.cpp
     ${SRC_DIR}/Renderer/Texture2D.cpp
+    ${SRC_DIR}/Renderer/Scene.cpp
+    ${SRC_DIR}/Renderer/Camera.cpp
+    ${SRC_DIR}/Renderer/Entity.cpp
+    ${SRC_DIR}/Renderer/Projection.cpp
+    ${SRC_DIR}/Renderer/TransformComponent.cpp
     ${SRC_DIR}/System/ResourceManager.cpp
+    ${SRC_DIR}/Core/Engine.cpp
+    ${SRC_DIR}/System/DebugTools.cpp
 )
 
 add_library(LunaCoreStatic STATIC

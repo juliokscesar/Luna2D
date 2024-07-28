@@ -2,7 +2,9 @@
 
 #include <cstdint>
 #include <iostream>
-#include <memory>
+
+#include <glm/gtc/type_ptr.hpp>
+
 
 namespace Luna 
 {
@@ -23,8 +25,12 @@ namespace Luna
 	uint32_t fragId = CreateShader(GL_FRAGMENT_SHADER, fragCode);
 
 	m_progID = CreateProgram(vertexId, fragId);
+	glValidateProgram(m_progID);
 
+	glDetachShader(m_progID, vertexId);
 	glDeleteShader(vertexId);
+
+	glDetachShader(m_progID, fragId);
 	glDeleteShader(fragId);
     }
 
@@ -78,6 +84,19 @@ namespace Luna
 	int loc = GetUniformLocation(name);
 	glUniform1i(loc, val);
     }
+
+    void Shader::SetUniformMat4(const std::string& name, const glm::mat4& mat)
+    {
+	int loc = GetUniformLocation(name);
+	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mat));
+    }
+    
+    void Shader::SetUniformVec3(const std::string& name, const glm::vec3& v)
+    {
+	int loc = GetUniformLocation(name);
+	glUniform3fv(loc, 1, glm::value_ptr(v));
+    }
+
 
     uint32_t Shader::CreateShader(GLenum type, const char *code)
     {
@@ -145,10 +164,10 @@ namespace Luna
 
     void ShaderLibrary::Add(const Shader& shader)
     {
-	m_shaders[shader.GetName()] = std::make_shared<Shader>(shader);
+	m_shaders[shader.GetName()] = CreateRef<Shader>(shader);
     }
 
-    std::shared_ptr<Shader> ShaderLibrary::Get(const std::string& name) const noexcept
+    Ref<Shader> ShaderLibrary::Get(const std::string& name) const noexcept
     {
 	return m_shaders.at(name);
     }

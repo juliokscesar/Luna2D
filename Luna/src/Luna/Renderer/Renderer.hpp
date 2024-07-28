@@ -1,6 +1,9 @@
 #pragma once
 
-#include <stdint.h>
+#include "Scene.hpp"
+#include "Shader.hpp"
+
+#include <cstdint>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -24,14 +27,15 @@ namespace Luna
     {
         void Init(const ViewportSpecifications& viewportSpecs);
         void UpdateViewport(uint32_t newWidth, uint32_t newHeight);
+    
+	std::string AddToShaderLib(const Shader& shader);
+	Ref<Shader> GetFromShaderLib(const std::string& name);
 
-	// TODO: implement DrawTriangle. Find out a way to store simple mesh vertices (like triangle, quad, etc)
-	/* void DrawTriangle(); */
-
-	// TODO: implement DrawQuad. Create function to DrawSprite and also DrawQuad with texture
-	//void DrawQuad();
+	void RenderSprite(Ref<Sprite> sprite);
+	void RenderEntity(Scene* scene, Ref<Entity> entity, Ref<Shader> shader);
+	void RenderScene(Scene* scene, const std::string& baseShaderName);
 
         void ClearColor(float r, float g, float b, float a);
-        void NewFrame(GLFWwindow* window);
+        void EndFrame(GLFWwindow* window);
     };
 }

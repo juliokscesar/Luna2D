@@ -39,7 +39,7 @@ namespace Luna
         void SetClose(bool close);
         bool CloseRequested() const noexcept;
         
-        void ResizeWindow(uint32_t newWidth, uint32_t newHeight);
+        void UpdateWindowSize(uint32_t newWidth, uint32_t newHeight);
 
         GLFWwindow* GetGLFWWindow() const noexcept;
 

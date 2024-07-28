@@ -1,16 +1,28 @@
+#include "Luna/Core/Application.hpp"
 #include "SandboxApp.hpp"
+#include "Luna/Core/Engine.hpp"
+#include <iostream>
 
 int main()
 {
     Luna::ApplicationSpecification appSpec;
-    appSpec.AppWindowSpec = Luna::WindowSpecification("Sandbox", 1280, 720, true);
+    appSpec.Name = "Luna Sandbox";
+    appSpec.WindowWidth = 800;
+    appSpec.WindowHeight = 600;
+    Sandbox::SandboxApp* app = new Sandbox::SandboxApp(appSpec);
 
-    Luna::SandboxApp *app = new Luna::SandboxApp(appSpec);
+    Luna::Engine* engine = new Luna::Engine(app);
+    if (!engine->Start())
+    {
+	std::cerr << "Something went wrong when trying to start engine\n";
+	delete engine;
+	delete app;
 
-    if (app->Init() != LUNA_INIT_SUCCESS)
-        return -1;
+	return 1;
+    }
 
-    app->Run();
+    engine->Run();
 
+    delete engine;
     delete app;
 }

@@ -3,13 +3,29 @@
 namespace Luna 
 {
     Application::Application(const ApplicationSpecification& appSpec)
+	: m_appSpecs(appSpec)
     {
-	m_window = std::make_unique<Window>(appSpec.AppWindowSpec);
+    }
+
+    Application::Application(const Application& other)
+	: m_appSpecs(other.m_appSpecs)
+    {
+    }
+
+    Application::Application(Application&& other)
+	: m_appSpecs(std::move(other.m_appSpecs))
+    {
     }
 
     Application::~Application()
     {
-	glfwTerminate();
+    }
+
+
+    void Application::UpdateWindowSize(uint32_t width, uint32_t height)
+    {
+	m_appSpecs.WindowWidth = width;
+	m_appSpecs.WindowHeight = height;
     }
 }
 
