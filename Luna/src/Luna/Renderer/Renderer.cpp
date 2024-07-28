@@ -63,7 +63,6 @@ namespace Luna::Renderer
     void RenderScene(Scene* scene, const std::string& baseShaderName)
     {
 	auto baseShader = g_shaderLib.Get(baseShaderName);
-	baseShader->Use();
 	for (auto& entity : scene->GetAllEntities())
 	{
 	    RenderEntity(scene, entity, baseShader);

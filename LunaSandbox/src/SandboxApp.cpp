@@ -65,8 +65,6 @@ namespace Sandbox
 	m_mainScene->UpdateScene(deltaTime, (float)m_appSpecs.WindowWidth, (float)m_appSpecs.WindowHeight);
 
 	Luna::Ref<Luna::Entity> e = m_mainScene->GetEntityById(0);
-	e->Transform.Update();
-	e->Transform.SetPosition(00.0f, 00.0f, 0.0f);
 	e->Transform.Scale(200.0f);
 
 	Luna::Renderer::RenderScene(m_mainScene, "sprite_base");

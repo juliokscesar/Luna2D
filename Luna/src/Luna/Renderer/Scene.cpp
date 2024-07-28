@@ -28,16 +28,24 @@ namespace Luna
 	return m_entities[id];
     }
 
-    Ref<Entity> Scene::CreateEntity(const std::string& name, Ref<Sprite> sprite)
+    Ref<Entity> Scene::CreateEntity(const std::string& name, Ref<Sprite> sprite, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale)
     {
 	int newId = RegisterEntity(CreateRef<Entity>(name, sprite));
-	return m_entities[newId];
+
+	Ref<Entity> entity = m_entities[newId];
+	entity->Transform.SetPosition(position);
+	entity->Transform.SetRotation(rotation);
+	entity->Transform.SetScale(scale);
+
+	return entity;
     }
     
     void Scene::UpdateScene(float deltaTime, float viewportWidth, float viewportHeight)
     {
 	m_camera->Update(deltaTime);
 	m_projection.UpdateFrustum(viewportWidth, viewportHeight);
+
+	m_worldTransform = glm::mat4(1.0f);
 	m_worldTransform = glm::translate(m_worldTransform, glm::vec3(viewportWidth / 2.0f, viewportHeight / 2.0f, 0.0f));
 
 	for (auto& entity : m_entities)

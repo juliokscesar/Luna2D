@@ -7,6 +7,16 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(GLAD_SRC ext/glad/src/glad.c)
 
+set(IMGUI_DIR ext/imgui)
+set(IMGUI_SRC 
+    ${IMGUI_DIR}/imgui.cpp
+    ${IMGUI_DIR}/imgui_draw.cpp
+    ${IMGUI_DIR}/imgui_widgets.cpp
+    ${IMGUI_DIR}/imgui_tables.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+)
+
 set(SRC_DIR src/Luna)
 
 set(LUNA_CORE_SRC
@@ -29,12 +39,15 @@ set(LUNA_CORE_SRC
 
 add_library(LunaCoreStatic STATIC
     ${GLAD_SRC}
+    ${IMGUI_SRC}
     ${LUNA_CORE_SRC}
 )
 
 target_include_directories(LunaCoreStatic PUBLIC 
     ${CMAKE_CURRENT_LIST_DIR}/ext/ 
     ${CMAKE_CURRENT_LIST_DIR}/ext/glad/include/
+    ${CMAKE_CURRENT_LIST_DIR}/ext/imgui/
+    ${CMAKE_CURRENT_LIST_DIR}/ext/imgui/backends
 ) 
 
 target_compile_definitions(LunaCoreStatic PRIVATE "LN_DEBUG=$<CONFIG:Debug>")

@@ -28,7 +28,7 @@ namespace Luna
 
 	inline std::vector<Ref<Entity>>& GetAllEntities() { return m_entities; }
 
-	Ref<Entity> CreateEntity(const std::string& name, Ref<Sprite> sprite);
+	Ref<Entity> CreateEntity(const std::string& name, Ref<Sprite> sprite, const glm::vec3& position=glm::vec3(0.0f), const glm::vec3& rotation=glm::vec3(0.0f), const glm::vec3& scale=glm::vec3(1.0f));
 
 	void UpdateScene(float deltaTime, float viewportWidth, float viewportHeight);
 
