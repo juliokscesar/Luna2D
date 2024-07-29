@@ -8,7 +8,7 @@
 
 #include <glm/glm.hpp>
 
-#include "../Core/Luna.hpp"
+#include "Core/Luna.hpp"
 
 namespace Luna 
 {

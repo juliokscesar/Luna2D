@@ -11,6 +11,18 @@ namespace Luna
     {
     }
 
+    Scene::~Scene()
+    {
+	for (auto entity : m_entities)
+	{
+	    uint32_t spriteVAO = entity->GetSprite()->GetVAO();
+	    uint32_t spriteVBO = entity->GetSprite()->GetVBO();
+
+	    glDeleteBuffers(1, &spriteVBO);
+	    glDeleteVertexArrays(1, &spriteVAO);
+	}
+    }
+
     int Scene::RegisterEntity(Ref<Entity> entity)
     {
 	m_entities.push_back(entity);
@@ -45,8 +57,10 @@ namespace Luna
 	m_camera->Update(deltaTime);
 	m_projection.UpdateFrustum(viewportWidth, viewportHeight);
 
+	// Apply world transform to set 0,0 as center of screen and scale everything initially to 200.
 	m_worldTransform = glm::mat4(1.0f);
 	m_worldTransform = glm::translate(m_worldTransform, glm::vec3(viewportWidth / 2.0f, viewportHeight / 2.0f, 0.0f));
+	m_worldTransform = glm::scale(m_worldTransform, glm::vec3(200.0f));
 
 	for (auto& entity : m_entities)
 	{

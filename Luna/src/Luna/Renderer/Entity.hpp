@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Core/Luna.hpp"
+#include "Core/Luna.hpp"
 #include "TransformComponent.hpp"
 #include "Sprite.hpp"
 

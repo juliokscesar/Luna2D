@@ -13,7 +13,8 @@ namespace Luna
     public:
 	Scene();
 	Scene(Ref<Camera> camera, const Projection& projection);
-	
+	~Scene();
+
 	inline Ref<Camera> GetCamera() { return m_camera; }
 	inline void SetCamera(Ref<Camera> camera) { m_camera = camera; }
 

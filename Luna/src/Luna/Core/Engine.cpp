@@ -2,17 +2,20 @@
 
 #include <chrono>
 
-#include "../Renderer/Renderer.hpp"
+#include "Renderer/Renderer.hpp"
 #include "Input.hpp"
-#include "../System/ResourceManager.hpp"
+#include "System/ResourceManager.hpp"
+#include "GUI.hpp"
 
 using ms = std::chrono::duration<float, std::milli>;
 
 namespace Luna
 {
-    static struct { bool changed; uint32_t width; uint32_t height; } g_resizeSpecs;
+    static struct { bool changed = false; uint32_t width; uint32_t height; } g_resizeSpecs;
     void framebufferSizeCallback(GLFWwindow* window, int width, int height)
     {
+	(void)window;
+
 	g_resizeSpecs.changed = true;
 	g_resizeSpecs.width = static_cast<uint32_t>(width);
 	g_resizeSpecs.height = static_cast<uint32_t>(height);
@@ -74,9 +77,14 @@ if (!m_window->CreateWindow())
 	    appSpec.WindowWidth,
 	    appSpec.WindowHeight
 	};
+	
 	Renderer::Init(viewport);
+	
 	Input::RegisterCallbacks(m_window->GetGLFWWindow());
+	
 	ResourceManager::InitWorkingPath();
+
+	GUI::InitContext(m_window->GetGLFWWindow());
 
 	glfwSetFramebufferSizeCallback(m_window->GetGLFWWindow(), framebufferSizeCallback);
 
@@ -92,9 +100,10 @@ if (!m_window->CreateWindow())
 	while (!m_window->CloseRequested())
 	{
 	    auto currentFrame = std::chrono::high_resolution_clock::now();
-	    deltaTime = std::chrono::duration_cast<ms>(currentFrame - lastFrame).count();
+	    deltaTime = std::chrono::duration_cast<ms>(currentFrame - lastFrame).count() / 1000.0f;
 	    lastFrame = currentFrame;
 
+	    GUI::NewFrame();
 	    Renderer::ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	    if (g_resizeSpecs.changed)
@@ -109,6 +118,7 @@ if (!m_window->CreateWindow())
 	    if (m_app->ExitRequested())
 		m_window->SetClose(true);
 
+	    GUI::Render();
 	    Renderer::EndFrame(m_window->GetGLFWWindow());
 	}
     }
@@ -117,6 +127,7 @@ if (!m_window->CreateWindow())
     {
 	m_app->OnDestroy();
 
+	GUI::Terminate();
 	glfwTerminate();
     }
 }

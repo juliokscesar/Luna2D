@@ -79,8 +79,9 @@ namespace Luna::ResourceManager
 	}
 
 	stbi_set_flip_vertically_on_load(flip);
-	int width, height, nrChannels;
-	uint8_t* data = stbi_load(path.c_str(), &width, &height, &nrChannels, 4);
+	int width, height;
+	// load image and force 4 channels (RGBA)
+	uint8_t* data = stbi_load(path.c_str(), &width, &height, nullptr, 4);
 	
 	if (!data)
 	{
@@ -88,21 +89,10 @@ namespace Luna::ResourceManager
 	    return nullptr;
 	}
 
-	GLenum srcFormat;	
-	switch (nrChannels)
-	{
-	case 1:	    srcFormat = GL_RED;		break;
-	case 3:	    srcFormat = GL_RGB;		break;
-	case 4:	    srcFormat = GL_RGBA;	break;
-	}
-	std::cout << "nrChannels is " << nrChannels << " for path " << path << '\n';
-
-	srcFormat = GL_RGBA;
 	return new ImageData(
 		static_cast<uint32_t>(width),
 		static_cast<uint32_t>(height),
-		static_cast<uint32_t>(nrChannels),
-		srcFormat,
+		GL_RGBA,
 		data
 	);
     }

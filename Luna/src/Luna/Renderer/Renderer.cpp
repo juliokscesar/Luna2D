@@ -65,6 +65,8 @@ namespace Luna::Renderer
 	auto baseShader = g_shaderLib.Get(baseShaderName);
 	for (auto& entity : scene->GetAllEntities())
 	{
+	    if (!entity->IsVisible())
+		continue;
 	    RenderEntity(scene, entity, baseShader);
 	}
     }

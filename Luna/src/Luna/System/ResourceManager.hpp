@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "../Renderer/Shader.hpp"
-#include "../Renderer/Texture2D.hpp"
+#include "Renderer/Shader.hpp"
+#include "Renderer/Texture2D.hpp"
 
 namespace Luna::ResourceManager
 {
@@ -19,14 +19,13 @@ namespace Luna::ResourceManager
     {
 	ImageData() = default;
 
-	ImageData(uint32_t width, uint32_t height, uint32_t channels, GLenum imgSourceFormat, uint8_t* data)
-	    : Width(width), Height(height), NrChannels(channels), SourceFormat(imgSourceFormat), Data(data) {}
+	ImageData(uint32_t width, uint32_t height, GLenum imgSourceFormat, uint8_t* data)
+	    : Width(width), Height(height), SourceFormat(imgSourceFormat), Data(data) {}
 
 	~ImageData();
 
 	uint32_t Width = 0;
 	uint32_t Height = 0;
-	uint32_t NrChannels = 0;
 
 	GLenum SourceFormat = GL_RGBA;
 

@@ -78,6 +78,8 @@ public:
     // Scale in all axis by a given factor
     void Scale(float factor) noexcept;
 
+    // Get scale (default is 1.0, 1.0, 1.0)
+    inline const glm::vec3& GetScale() const noexcept { return m_scale; }
 
     // Get calculated transform matrix.
     // This is not a const function because it calls Update() before returning the matrix.

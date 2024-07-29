@@ -35,6 +35,7 @@ set(LUNA_CORE_SRC
     ${SRC_DIR}/System/ResourceManager.cpp
     ${SRC_DIR}/Core/Engine.cpp
     ${SRC_DIR}/System/DebugTools.cpp
+    ${SRC_DIR}/Core/GUI.cpp
 )
 
 add_library(LunaCoreStatic STATIC
@@ -47,7 +48,9 @@ target_include_directories(LunaCoreStatic PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/ext/ 
     ${CMAKE_CURRENT_LIST_DIR}/ext/glad/include/
     ${CMAKE_CURRENT_LIST_DIR}/ext/imgui/
-    ${CMAKE_CURRENT_LIST_DIR}/ext/imgui/backends
+    ${CMAKE_CURRENT_LIST_DIR}/ext/imgui/backends/
+
+    ${CMAKE_CURRENT_LIST_DIR}/src/Luna/
 ) 
 
 target_compile_definitions(LunaCoreStatic PRIVATE "LN_DEBUG=$<CONFIG:Debug>")

@@ -48,7 +48,7 @@ namespace Luna
     void Texture2D::Use() const noexcept
     {
 	glActiveTexture(GL_TEXTURE0 + m_textureUnit);
-	/* glBindTexture(GL_TEXTURE_2D, m_textureID); */
+	glBindTexture(GL_TEXTURE_2D, m_textureID);
     }
 
     uint32_t Texture2D::GetTextureID() const noexcept

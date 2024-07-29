@@ -31,6 +31,9 @@ static MouseTracker mouseTracker;
 
 static void keyInputCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+    (void)window;
+    (void)scancode;
+
     keysActionMods[key][ACTION] = action;
     keysActionMods[key][MODS] = mods;
 
@@ -72,6 +75,9 @@ static void mouseMoveCallback(GLFWwindow* window, double xpos, double ypos)
 
 static void mouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
+    (void)window;
+    (void)xoffset;
+
     mouseTracker.scrollOffset = static_cast<float>(yoffset);
 }
 
