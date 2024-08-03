@@ -7,13 +7,17 @@
 
 namespace Luna::ResourceManager
 {
-    void InitWorkingPath();
+    void Init();
+    void Terminate();
 
     bool CheckPath(const std::string& path);
 
+    std::string FormatPath(const std::string& path);
+
     std::string LoadFile(const std::string& path);
     
-    Shader LoadShader(const std::string& vertexPath, const std::string& fragPath);
+    Ref<Shader> LoadShader(const std::string& vertexPath, const std::string& fragPath);
+    ShaderLibrary* GetShaderLib();
 
     struct ImageData
     {
@@ -32,9 +36,14 @@ namespace Luna::ResourceManager
 	uint8_t* Data = nullptr;
     };
 
+    enum class ImgLoadFlags : uint8_t
+    {
+	NONE = 0,
+	FLIP = 1 << 0
+    };
 
-    ImageData* LoadImage(const std::string& path, bool flip=false);
+    ImageData* LoadImage(const std::string& path, uint8_t flags=0);
 
-    Texture2D LoadTexture2D(const std::string& path, uint32_t textureUnit=0, bool flipImgOnLoad=false);
+    Ref<Texture2D> LoadTexture2D(const std::string& path, uint32_t textureUnit=0, bool flipImgOnLoad=false);
 }
 

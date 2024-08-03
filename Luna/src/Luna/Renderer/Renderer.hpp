@@ -28,9 +28,6 @@ namespace Luna
         void Init(const ViewportSpecifications& viewportSpecs);
         void UpdateViewport(uint32_t newWidth, uint32_t newHeight);
     
-	std::string AddToShaderLib(const Shader& shader);
-	Ref<Shader> GetFromShaderLib(const std::string& name);
-
 	void RenderSprite(Ref<Sprite> sprite);
 	void RenderEntity(Scene* scene, Ref<Entity> entity, Ref<Shader> shader);
 	void RenderScene(Scene* scene, const std::string& baseShaderName);

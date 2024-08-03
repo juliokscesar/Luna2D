@@ -44,25 +44,21 @@ namespace Sandbox
 
     void SandboxApp::OnStart()
     {
-	{
-	Luna::Shader spriteBase = Luna::ResourceManager::LoadShader("shaders/sprite_base.vert", "shaders/sprite_base.frag");
-	Luna::Renderer::AddToShaderLib(spriteBase);
-	
-	Luna::Shader simpleQuad = Luna::ResourceManager::LoadShader("shaders/quad.vert", "shaders/quad.frag");
-	Luna::Renderer::AddToShaderLib(simpleQuad);
+	// sprite_base shader
+	Luna::ResourceManager::LoadShader("shaders/sprite_base.vert", "shaders/sprite_base.frag");
 
-	Luna::Renderer::AddToShaderLib(
-	    Luna::ResourceManager::LoadShader("shaders/quadTextured.vert", "shaders/quadTextured.frag")
-	);
-	Luna::Texture2D romaTex = Luna::ResourceManager::LoadTexture2D("textures/roma.png");
+	// quad shader
+	Luna::ResourceManager::LoadShader("shaders/quad.vert", "shaders/quad.frag");
+
+	// quadTextured shader
+	Luna::ResourceManager::LoadShader("shaders/quadTextured.vert", "shaders/quadTextured.frag");
+
+	Luna::Ref<Luna::Texture2D> romaTex = Luna::ResourceManager::LoadTexture2D("textures/roma.png");
 	Luna::Ref<Luna::Entity> roma = m_mainScene->CreateEntity("Roma", Luna::CreateRef<Luna::Sprite>(romaTex));
-
-	}
 	
-	Luna::Texture2D containerTex = Luna::ResourceManager::LoadTexture2D("textures/container.jpg");
+	Luna::Ref<Luna::Texture2D> containerTex = Luna::ResourceManager::LoadTexture2D("textures/container.jpg");
 	Luna::Ref<Luna::Entity> container = m_mainScene->CreateEntity("Container", Luna::CreateRef<Luna::Sprite>(containerTex));
 	container->Transform.SetPosition(1.0f, 0.0f, 0.0f);
-
     }
 
     void SandboxApp::OnUpdate(float deltaTime)

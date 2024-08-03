@@ -3,3 +3,4 @@ build/
 *old*
 compile_commands*
 .cache/
+imgui.ini

@@ -61,9 +61,11 @@ namespace Luna
 	uint32_t GetTextureID() const noexcept;
 	int GetTextureUnit() const noexcept;
 
+	void DeleteResources();
+
     private:
-	uint32_t m_textureID   = 0;
-	int m_textureUnit = 0;
+	uint32_t m_textureID	= 0;
+	int m_textureUnit	= 0;
     };
 }
 

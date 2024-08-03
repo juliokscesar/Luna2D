@@ -9,7 +9,7 @@ namespace Luna
 	InitRenderData();
     }
 
-    Sprite::Sprite(const Texture2D& spriteTexture)
+    Sprite::Sprite(Ref<Texture2D> spriteTexture)
 	: m_texture(spriteTexture), m_useTexture(true)
     {
 	InitRenderData();

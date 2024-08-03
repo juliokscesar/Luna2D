@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Luna.hpp"
 #include "Texture2D.hpp"
 
 #include <cstdint>
@@ -10,7 +11,7 @@ namespace Luna
     {
     public:
 	Sprite();
-	Sprite(const Texture2D& spriteTexture);
+	Sprite(Ref<Texture2D> spriteTexture);
 	Sprite(const Sprite& other);
 	Sprite(Sprite&& other);
 	~Sprite();
@@ -45,8 +46,8 @@ namespace Luna
 
 	void InitRenderData();
 
-	void SetTexture2D(const Texture2D& texture);
-	inline const Texture2D& GetTexture() const noexcept { return m_texture; }
+	inline void SetTexture2D(Ref<Texture2D> texture) { m_texture = texture; }
+	inline Ref<Texture2D> GetTexture() const noexcept { return m_texture; }
 	inline bool IsUsingTexture() const noexcept { return m_useTexture; }
 
 	inline uint32_t GetVAO() const noexcept { return m_VAO; }
@@ -56,7 +57,7 @@ namespace Luna
 	uint32_t m_VAO = 0;
 	uint32_t m_VBO = 0;
 
-	Texture2D m_texture;
+	Ref<Texture2D> m_texture;
 	bool m_useTexture = false;
     };
 }

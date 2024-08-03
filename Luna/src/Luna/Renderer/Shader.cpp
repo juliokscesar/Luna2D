@@ -162,14 +162,21 @@ namespace Luna
 	}
     }
 
-    void ShaderLibrary::Add(const Shader& shader)
+    void ShaderLibrary::Add(Ref<Shader> shader)
     {
-	m_shaders[shader.GetName()] = CreateRef<Shader>(shader);
+	m_shaders[shader->GetName()] = shader;
     }
 
     Ref<Shader> ShaderLibrary::Get(const std::string& name) const noexcept
     {
 	return m_shaders.at(name);
     }
+
+
+    bool ShaderLibrary::Contains(const std::string& name) const noexcept
+    {
+	return m_shaders.contains(name);
+    }
+
 }
 

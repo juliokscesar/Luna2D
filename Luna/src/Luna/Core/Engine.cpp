@@ -55,7 +55,7 @@ namespace Luna
 	glfwWindowHint(GLFW_FOCUS_ON_SHOW, GLFW_TRUE);
 	glfwWindowHint(GLFW_MAXIMIZED, appSpec.MaximizeOnOpen);
 
-if (!m_window->CreateWindow())
+	if (!m_window->CreateWindow())
 	{
 	    glfwTerminate();
 	    return false;
@@ -73,16 +73,16 @@ if (!m_window->CreateWindow())
 	    return false;
 	}
 
-	ViewportSpecifications viewport{
+	ViewportSpecifications viewportSpecs{
 	    appSpec.WindowWidth,
 	    appSpec.WindowHeight
 	};
 	
-	Renderer::Init(viewport);
+	Renderer::Init(viewportSpecs);
 	
 	Input::RegisterCallbacks(m_window->GetGLFWWindow());
 	
-	ResourceManager::InitWorkingPath();
+	ResourceManager::Init();
 
 	GUI::InitContext(m_window->GetGLFWWindow());
 
@@ -127,6 +127,7 @@ if (!m_window->CreateWindow())
     {
 	m_app->OnDestroy();
 
+	ResourceManager::Terminate();
 	GUI::Terminate();
 	glfwTerminate();
     }

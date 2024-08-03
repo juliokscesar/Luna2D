@@ -85,8 +85,10 @@ namespace Luna
     public:
 	~ShaderLibrary();
 
-	void Add(const Shader& shader);
+	void Add(Ref<Shader> shader);
 	Ref<Shader> Get(const std::string& name) const noexcept;
+	bool Contains(const std::string& name) const noexcept;
+
     private:
 	std::unordered_map<std::string, Ref<Shader>> m_shaders;
     };

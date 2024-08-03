@@ -60,5 +60,11 @@ namespace Luna
     {
 	return m_textureUnit;
     }
+
+    void Texture2D::DeleteResources()
+    {
+	if (m_textureID)
+	    glDeleteTextures(1, &m_textureID);
+    }
 }
 

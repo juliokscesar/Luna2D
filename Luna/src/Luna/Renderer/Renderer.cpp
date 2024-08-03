@@ -1,10 +1,11 @@
 #include "Renderer.hpp"
 
 #include "Texture2D.hpp"
+#include "System/ResourceManager.hpp"
 
 namespace Luna::Renderer
 {
-    static ViewportSpecifications g_viewportSpecs;
+    ViewportSpecifications g_viewportSpecs;
 
     void Init(const ViewportSpecifications &viewportSpecs)
     {
@@ -24,24 +25,13 @@ namespace Luna::Renderer
         glViewport(0, 0, (GLsizei)g_viewportSpecs.Width, (GLsizei)g_viewportSpecs.Height);
     }
 
-    static ShaderLibrary g_shaderLib;
-    std::string AddToShaderLib(const Shader &shader)
-    {
-	g_shaderLib.Add(shader);
-	return shader.GetName();
-    }
-
-    Ref<Shader> GetFromShaderLib(const std::string& name)
-    {
-	return g_shaderLib.Get(name);
-    }
 
     void RenderSprite(Ref<Sprite> sprite)
     {
 	glBindVertexArray(sprite->GetVAO());
 
 	if (sprite->IsUsingTexture())
-	    sprite->GetTexture().Use();
+	    sprite->GetTexture()->Use();
 	
 	glDrawArrays(GL_TRIANGLES, 0, 6);
     }
@@ -55,14 +45,14 @@ namespace Luna::Renderer
 	shader->SetUniformMat4("u_view", scene->GetCamera()->GetViewMatrix());
 
 	if (entity->GetSprite()->IsUsingTexture())
-	    shader->SetUniformUInt("u_texUnit", entity->GetSprite()->GetTexture().GetTextureUnit());
+	    shader->SetUniformUInt("u_texUnit", entity->GetSprite()->GetTexture()->GetTextureUnit());
 
 	RenderSprite(entity->GetSprite());
     }
     
     void RenderScene(Scene* scene, const std::string& baseShaderName)
     {
-	auto baseShader = g_shaderLib.Get(baseShaderName);
+	auto baseShader = ResourceManager::GetShaderLib()->Get(baseShaderName);
 	for (auto& entity : scene->GetAllEntities())
 	{
 	    if (!entity->IsVisible())
@@ -73,7 +63,6 @@ namespace Luna::Renderer
 
     void ClearColor(float r, float g, float b, float a)
     {
-        // TODO: test if glClear can be in NewFrame function
         glClearColor(r, g, b, a);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
