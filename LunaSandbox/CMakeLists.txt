@@ -35,7 +35,7 @@ target_link_directories(LunaSandbox PUBLIC
 if(WIN32)
     set(LIBS
         glfw3
-        openl32
+        opengl32
     )
 else()
     set(LIBS
