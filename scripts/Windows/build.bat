@@ -12,4 +12,4 @@ if not exist build mkdir build
 
 cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=.
-cmake --build . --target LunaSandbox
+cmake --build . --target LunaSandbox -j 4

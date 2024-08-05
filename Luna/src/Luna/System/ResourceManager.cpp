@@ -26,12 +26,13 @@ namespace Luna::ResourceManager
 
     void Init()
     {
+	std::cout << "LN_ROOT_FOLDER: " << LN_ROOT_FOLDER << '\n';
 	std::filesystem::path curr = std::filesystem::current_path();
 	while (curr.filename().string() != LN_ROOT_FOLDER)
-	    curr = curr.parent_path();
+		curr = curr.parent_path();
 
 	g_assetsFolder = curr / LN_PROJECT_FOLDER / "assets";
-	
+		
 	std::cout << "g_assetsFolder = " << g_assetsFolder << '\n';
 
 
