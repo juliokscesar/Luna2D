@@ -78,29 +78,29 @@ namespace Luna::ResourceManager
 
     Ref<Shader> LoadShader(const std::string& vertexPath, const std::string& fragPath)
     {
-	// Get shader name based on vertex path
-	const std::string shaderName = std::filesystem::path(vertexPath).stem();
-	if (g_shaderLib->Contains(shaderName))
-	    return g_shaderLib->Get(shaderName);
+		// Get shader name based on vertex path
+		const std::string shaderName = std::filesystem::path(vertexPath).stem().string();
+		if (g_shaderLib->Contains(shaderName))
+			return g_shaderLib->Get(shaderName);
 
-	std::string vertexCode = LoadFile(vertexPath);
-	std::string fragCode = LoadFile(fragPath);
+		std::string vertexCode = LoadFile(vertexPath);
+		std::string fragCode = LoadFile(fragPath);
 
-	if (vertexCode.empty() || fragCode.empty())
-	{
-	    std::cerr << "Unable to load shader with vertexPath=" << vertexPath << " and fragPath=" << fragPath << '\n';
-	    return Ref<Shader>(nullptr);
-	}
+		if (vertexCode.empty() || fragCode.empty())
+		{
+			std::cerr << "Unable to load shader with vertexPath=" << vertexPath << " and fragPath=" << fragPath << '\n';
+			return Ref<Shader>(nullptr);
+		}
 
-	Ref<Shader> shader = CreateRef<Shader>(shaderName, vertexCode.c_str(), fragCode.c_str());
-	g_shaderLib->Add(shader);
+		Ref<Shader> shader = CreateRef<Shader>(shaderName, vertexCode.c_str(), fragCode.c_str());
+		g_shaderLib->Add(shader);
 
-	return shader;
+		return shader;
     }
 
     ShaderLibrary* GetShaderLib()
     {
-	return g_shaderLib;
+		return g_shaderLib;
     }
     
 

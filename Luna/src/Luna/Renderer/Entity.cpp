@@ -13,6 +13,7 @@ namespace Luna
     
     void Entity::OnUpdate(float deltaTime)
     {
+        LN_UNUSED(deltaTime);
     }
 }
 

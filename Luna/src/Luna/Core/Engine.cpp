@@ -11,14 +11,14 @@ using ms = std::chrono::duration<float, std::milli>;
 
 namespace Luna
 {
-    static struct { bool changed = false; uint32_t width; uint32_t height; } g_resizeSpecs;
+    static struct { bool changed = false; uint32_t width = 0; uint32_t height = 0; } g_resizeSpecs;
     void framebufferSizeCallback(GLFWwindow* window, int width, int height)
     {
-	(void)window;
+		LN_UNUSED(window);
 
-	g_resizeSpecs.changed = true;
-	g_resizeSpecs.width = static_cast<uint32_t>(width);
-	g_resizeSpecs.height = static_cast<uint32_t>(height);
+		g_resizeSpecs.changed = true;
+		g_resizeSpecs.width = static_cast<uint32_t>(width);
+		g_resizeSpecs.height = static_cast<uint32_t>(height);
     }
 
 

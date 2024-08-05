@@ -5,6 +5,16 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # export compiler commands for clangd (nvi
 
 set(CMAKE_CXX_STANDARD 20)
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug)
+endif()
+
+if(NOT MSVC)
+    set(CMAKE_CXX_FLAGS_DEBUG "-g")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+endif()
+
+
 set(GLAD_SRC ext/glad/src/glad.c)
 
 set(IMGUI_DIR ext/imgui)
@@ -47,13 +57,24 @@ add_library(LunaCoreStatic STATIC
 target_include_directories(LunaCoreStatic PUBLIC 
     ${CMAKE_CURRENT_LIST_DIR}/ext/ 
     ${CMAKE_CURRENT_LIST_DIR}/ext/glad/include/
+    ${CMAKE_CURRENT_LIST_DIR}/ext/glfw/include/
     ${CMAKE_CURRENT_LIST_DIR}/ext/imgui/
     ${CMAKE_CURRENT_LIST_DIR}/ext/imgui/backends/
 
     ${CMAKE_CURRENT_LIST_DIR}/src/Luna/
 ) 
 
-target_compile_definitions(LunaCoreStatic PRIVATE "LN_DEBUG=$<CONFIG:Debug>")
+if (WIN32)
+    target_compile_definitions(LunaCoreStatic PRIVATE 
+     "LN_DEBUG=$<CONFIG:Debug>$",
+     "LN_WIN32"
+    )
+else()
+    target_compile_definitions(LunaCoreStatic PRIVATE 
+        "LN_DEBUG=$<CONFIG:Debug>$",
+        "LN_LINUX"
+    )
+endif()
 
 if(MSVC)
     target_compile_options(LunaCoreStatic PRIVATE /W4 /WX)

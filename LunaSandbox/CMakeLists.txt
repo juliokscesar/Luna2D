@@ -22,14 +22,35 @@ add_executable(LunaSandbox ${LUNA_SANDBOX_SRC})
 
 target_include_directories(LunaSandbox PUBLIC ${LUNA_SANDBOX_INCLUDE})
 
+if(WIN32)
+    set(GLFW_LIBS_DIR ${CMAKE_SOURCE_DIR}/Luna/ext/glfw/build/src/release)
+else()
+    set(GLFW_LIBS_DIR ${CMAKE_SOURCE_DIR}/Luna/ext/glfw/build)
+endif()
+
+target_link_directories(LunaSandbox PUBLIC
+    ${GLFW_LIBS_DIR}
+)
+
+if(WIN32)
+    set(LIBS
+        glfw3
+        openl32
+    )
+else()
+    set(LIBS
+        -lGL
+        -lX11
+        -lpthread
+        -lXrandr
+        -lXi
+        -ldl
+        glfw
+    )
+endif()
+
 target_link_libraries(LunaSandbox PUBLIC
-    -lglfw
-    -lGL
-    -lX11
-    -lpthread
-    -lXrandr
-    -lXi
-    -ldl
+    ${LIBS}
     LunaCoreStatic
 )
 

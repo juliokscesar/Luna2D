@@ -29,7 +29,7 @@ namespace Luna
 	Texture2D(const Texture2D& other)
 	    : m_textureID(other.m_textureID), m_textureUnit(other.m_textureUnit) {}
 
-	Texture2D(Texture2D&& other)
+	Texture2D(Texture2D&& other) noexcept
 	    : m_textureID(std::move(other.m_textureID)), m_textureUnit(std::move(other.m_textureUnit)) {}
 
 	Texture2D& operator=(const Texture2D& other)
@@ -43,7 +43,7 @@ namespace Luna
 	    return *this;
 	}
 
-	Texture2D& operator=(Texture2D&& other)
+	Texture2D& operator=(Texture2D&& other) noexcept
 	{
 	    if (this != &other)
 	    {

@@ -25,7 +25,7 @@ public:
 	return *this;
     }
 
-    TransformComponent& operator=(TransformComponent&& other)
+    TransformComponent& operator=(TransformComponent&& other) noexcept
     {
 	if (this != &other)
 	{

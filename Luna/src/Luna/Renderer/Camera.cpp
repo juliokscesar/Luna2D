@@ -2,6 +2,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Core/Luna.hpp"
+
 namespace Luna
 {
 Camera::Camera()
@@ -39,6 +41,8 @@ const glm::mat4& Camera::GetViewMatrix() const noexcept
 
 void Camera::Update(float deltaTime)
 {
+    LN_UNUSED(deltaTime);
+
     updateVectors();
     m_viewMatrix = glm::lookAt(Transform.GetPosition(), Transform.GetPosition() + m_front, m_up);
 }

@@ -1,3 +1,6 @@
 [submodule "Luna/ext/imgui"]
 	path = Luna/ext/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "Luna/ext/glfw"]
+	path = Luna/ext/glfw
+	url = https://github.com/glfw/glfw.git

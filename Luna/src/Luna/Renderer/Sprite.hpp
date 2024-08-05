@@ -30,7 +30,7 @@ namespace Luna
 	    return *this;
 	}
 
-	Sprite& operator=(Sprite&& other)
+	Sprite& operator=(Sprite&& other) noexcept
 	{
 	    if (this != &other)
 	    {

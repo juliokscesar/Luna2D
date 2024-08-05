@@ -24,7 +24,7 @@ namespace Luna
 	    this->m_name   = other.m_name;
 	}
 	
-	Shader(Shader&& other)
+	Shader(Shader&& other) noexcept
 	{
 	    this->m_progID = std::move(other.m_progID);
 	    this->m_name   = std::move(other.m_name);
