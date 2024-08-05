@@ -1,1 +1,1 @@
-./build.sh && ./build/bin/LunaSandbox
+./scripts/Linux/build.sh && ./build/bin/LunaSandbox

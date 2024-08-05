@@ -65,13 +65,11 @@ target_include_directories(LunaCoreStatic PUBLIC
 ) 
 
 if (WIN32)
-    target_compile_definitions(LunaCoreStatic PRIVATE 
-     "LN_DEBUG=$<CONFIG:Debug>$",
+    add_compile_definitions( 
      "LN_WIN32"
     )
 else()
-    target_compile_definitions(LunaCoreStatic PRIVATE 
-        "LN_DEBUG=$<CONFIG:Debug>$",
+    add_compile_definitions( 
         "LN_LINUX"
     )
 endif()
@@ -79,7 +77,7 @@ endif()
 if(MSVC)
     target_compile_options(LunaCoreStatic PRIVATE /W4 /WX)
 else()
-    target_compile_options(LunaCoreStatic PRIVATE -Wall -Wextra -Wpedantic)
+    target_compile_options(LunaCoreStatic PRIVATE -Wall -Wextra)
 endif()
 
 install(TARGETS LunaCoreStatic
