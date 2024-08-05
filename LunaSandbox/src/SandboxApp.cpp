@@ -11,7 +11,6 @@
 #include "Luna/Renderer/Entity.hpp"
 #include "Luna/Renderer/Projection.hpp"
 #include "Luna/Renderer/Renderer.hpp"
-#include "Luna/Renderer/Shader.hpp"
 #include "Luna/Renderer/Sprite.hpp"
 #include "Luna/Renderer/Texture2D.hpp"
 #include "Luna/System/ResourceManager.hpp"
@@ -59,6 +58,9 @@ namespace Sandbox
 	Luna::Ref<Luna::Texture2D> containerTex = Luna::ResourceManager::LoadTexture2D("textures/container.jpg");
 	Luna::Ref<Luna::Entity> container = m_mainScene->CreateEntity("Container", Luna::CreateRef<Luna::Sprite>(containerTex));
 	container->Transform.SetPosition(1.0f, 0.0f, 0.0f);
+
+	Luna::Ref<Luna::Texture2D> concreteTex = Luna::ResourceManager::LoadTexture2D("textures/concrete.png");
+	Luna::Ref<Luna::Entity> concrete = m_mainScene->CreateEntity("Concrete", Luna::CreateRef<Luna::Sprite>(concreteTex), glm::vec3(-1.0f, 0.0f, 0.0f));
     }
 
     void SandboxApp::OnUpdate(float deltaTime)

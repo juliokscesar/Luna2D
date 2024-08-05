@@ -82,7 +82,7 @@ namespace Luna::GUI
 	    glm::vec3 rotation = selectedEntity->Transform.GetRotation();
 	    glm::vec3 scale = selectedEntity->Transform.GetScale();
 
-	    ImGui::Text("Properties");
+	    ImGui::Text("%s Properties", selectedEntity->Name.c_str());
 
 	    ImGui::Text("Position"); ImGui::SameLine();
 	    ImGui::InputFloat3((labelId+"p").c_str(), glm::value_ptr(position));
